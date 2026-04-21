@@ -23,7 +23,7 @@ Proyecto Heart disease prevalence prediction comparando Linear regression, Rando
   errores del anterior. Suele dar mejor precisión pero es más sensible a 
   hiperparámetros y tarda más en entrenar.
 
-## Observaciones sobre los modelos: 
+## Observaciones sobre los modelos 
 * GB (MAE 0.95, R² 0.74) obtiene mejor resultado por poco sobre 
 RF (MAE 0.98, R² 0.72).
 
@@ -32,7 +32,7 @@ GB suele dar mejor resultado, es un patrón típico:
   menos riesgo. Es decir, RF obtiene menos probabilidad de que el modelo 
   falle o se comporte peor de lo esperado.
 
-## Comparación de modelos:
+## Comparación de modelos
 
 1. Menos riesgo de overfitting
 
@@ -74,7 +74,38 @@ GB suele dar mejor resultado, es un patrón típico:
   En datasets grandes tarda más, y si tienes que reentrenarlo semanalmente 
   en producción eso importa.
 
-  ¿Qué es n_jobs y por qué acelera RF?
+## Conclusión 
+* En un caso práctico real optaría por escoger RF o dedicaría 
+más tiempo al sobreajuste de GB. En este proyecto concreto, la diferencia 
+mínima entre RF y GB probablemente viene porque el dataset es mediano, 
+contiene outliers que se decidió mantener por ser datos médicos, y tiene 
+features correlacionadas. Ese contexto favorece que RF se acerque mucho 
+a GB sin necesidad de configuración adicional.
+
+## Anotaciones sobre los modelos
+
+### Cómo influyen los datos en la elección del modelo:
+
+* Cantidad de datos:
+  - Pocos datos (<1000 filas): GB sobreajusta más fácil porque cada árbol 
+    se aferra a patrones específicos. RF resiste mejor.
+  - Datos medianos (1000-10000 filas): RF y GB dan resultados parecidos. 
+    Este dataset tiene 3140 filas, lo que explica que RF y GB se queden 
+    tan cerca (0.72 vs 0.74).
+  - Muchos datos (>50.000 filas): GB suele ganar claramente porque tiene 
+    "material" suficiente para aprender patrones reales sin memorizar ruido.
+
+* Calidad de los datos:
+  - Ruido y outliers extremos: GB los persigue (intenta corregirlos árbol 
+    tras árbol) → sobreajuste. RF los ignora mejor porque promedia.
+  - Relaciones no lineales complejas: GB brilla, captura interacciones 
+    sutiles mejor que RF.
+  - Features muy correlacionadas (multicolinealidad): ambos aguantan, pero 
+    RF es algo más estable. Linear Regression es la que más sufre.
+
+### Hiperparámetro n_jobs:
+
+¿Qué es n_jobs y por qué acelera RF?
   n_jobs indica a sklearn cuántos núcleos (cores) de la CPU puede usar a 
   la vez. Por defecto usa solo uno y el resto están parados.
   - n_jobs=1  → usa 1 núcleo (default)
@@ -96,30 +127,4 @@ GB suele dar mejor resultado, es un patrón típico:
   Nota: n_jobs=-1 también acelera cross_val_score y GridSearchCV, que 
   entrenan varios modelos a la vez.
 
-## Cómo influyen los datos en la elección del modelo:
-
-* Cantidad de datos:
-  - Pocos datos (<1000 filas): GB sobreajusta más fácil porque cada árbol 
-    se aferra a patrones específicos. RF resiste mejor.
-  - Datos medianos (1000-10000 filas): RF y GB dan resultados parecidos. 
-    Este dataset tiene 3140 filas, lo que explica que RF y GB se queden 
-    tan cerca (0.72 vs 0.74).
-  - Muchos datos (>50.000 filas): GB suele ganar claramente porque tiene 
-    "material" suficiente para aprender patrones reales sin memorizar ruido.
-
-* Calidad de los datos:
-  - Ruido y outliers extremos: GB los persigue (intenta corregirlos árbol 
-    tras árbol) → sobreajuste. RF los ignora mejor porque promedia.
-  - Relaciones no lineales complejas: GB brilla, captura interacciones 
-    sutiles mejor que RF.
-  - Features muy correlacionadas (multicolinealidad): ambos aguantan, pero 
-    RF es algo más estable. Linear Regression es la que más sufre.
-
-## Conclusión: 
-* En un caso práctico real optaría por escoger RF o dedicaría 
-más tiempo al sobreajuste de GB. En este proyecto concreto, la diferencia 
-mínima entre RF y GB probablemente viene porque el dataset es mediano, 
-contiene outliers que se decidió mantener por ser datos médicos, y tiene 
-features correlacionadas. Ese contexto favorece que RF se acerque mucho 
-a GB sin necesidad de configuración adicional.
      
