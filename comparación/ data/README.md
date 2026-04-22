@@ -12,3 +12,31 @@ En este caso son tres columnas que dan información de la respuesta y es data qu
 
 * Importancia del VIF: En el dataset como hemos visto con el target aparecen otras columnas con indicadores de datos cercanos o similares a ellos, es decir, existe multicolinealidad entre algunas variables predictoras, no solo entre predictoras(X) y la variable target(y).
    * Ejemplo del proyecto: Las columnas age 60-79 pct % (porcentaje de población entre 60-79 años) y Percent of Population Aged 60+ (porcentaje de población mayor de 60) miden casi lo mismo. Si una sube, la otra sube casi igual. El modelo puede interpretarlo como información a añadir y no como información duplicada.
+ 
+   * Función VIF
+ 
+     ```
+     from sklearn.linear_model import LinearRegression
+
+def calculate_vif(X):
+    vif_data = pd.DataFrame()
+    vif_data["feature"] = X.columns
+    vif_values = []
+    
+    for col in X.columns:
+        X_other = X.drop(col, axis=1)
+        y_target = X[col]
+        
+        model = LinearRegression()
+        model.fit(X_other, y_target)
+        r2 = model.score(X_other, y_target)
+        
+        # Fix para colinealidad perfecta
+        if r2 >= 1.0:
+            vif_values.append(float("inf"))
+        else:
+            vif_values.append(1 / (1 - r2))
+    
+    vif_data["VIF"] = vif_values
+    return vif_data.sort_values("VIF", ascending=False)
+     ´´´
