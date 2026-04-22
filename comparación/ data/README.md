@@ -10,4 +10,5 @@ En este caso son tres columnas que dan información de la respuesta y es data qu
   * Si Heart disease_prevalence = 10.5, entonces típicamente: Heart disease_Upper 95% CI ≈ 11.2 y Heart disease_Lower 95% CI ≈ 9.8 pero el modelo estaría aprendiendo que el resultado del target es la media de esas dos variables, realmente no estaría prediciendo nada y puede dar fallos en producción.
     * En un caso práctico de producción, si queremos predecir la prevalencia de enfermedad cardíaca y no tenemos el intervalo de confianza de la misma porque todavía no se ha medido. Entonces el modelo no puede usar esas columnas en producción y sin ellas, el R² real se desploma. Por eso las tres columnas (prevalence, Upper 95% CI, Lower 95% CI) tienen que salir de X.
 
-
+* Importancia del VIF: En el dataset como hemos visto con el target aparecen otras columnas con indicadores de datos cercanos o similares a ellos, es decir, existe multicolinealidad entre algunas variables predictoras, no solo entre predictoras(X) y la variable target(y).
+   * Ejemplo del proyecto: Las columnas age 60-79 pct % (porcentaje de población entre 60-79 años) y Percent of Population Aged 60+ (porcentaje de población mayor de 60) miden casi lo mismo. Si una sube, la otra sube casi igual. El modelo puede interpretarlo como información a añadir y no como información duplicada.
