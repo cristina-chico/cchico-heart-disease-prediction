@@ -4,3 +4,22 @@ matplotlib
 seaborn
 scikit-learn
 jupyter
+
+heart-disease-prediction/
+│
+├── README.md                          ← portada del repo (lo que ve el recruiter)
+├── requirements.txt                   ← solo paquetes que usas de verdad
+├── .gitignore                         ← qué NO subir a Git
+│
+├── notebooks/
+│   ├── 01_eda.ipynb                   ← exploración + limpieza + correlaciones
+│   └── 02_modeling.ipynb              ← VIF + split + 3 modelos + comparación
+│
+├── data/
+│   └── README.md                      ← explica de dónde sacar el CSV
+│
+├── models/
+│   └── .gitkeep                       ← carpeta vacía rastreada por Git
+│
+└── reports/
+    └── figures/                       ← gráficos exportados (heatmaps, etc.)
