@@ -5,21 +5,22 @@ seaborn
 scikit-learn
 jupyter
 
+Notas:
 heart-disease-prediction/
 │
-├── README.md                          ← portada del repo (lo que ve el recruiter)
-├── requirements.txt                   ← solo paquetes que usas de verdad
-├── .gitignore                         ← qué NO subir a Git
+├── README.md                          ← portada del repo 
+├── requirements.txt                   
+├── .gitignore
 │
 ├── notebooks/
 │   ├── 01_eda.ipynb                   ← exploración + limpieza + correlaciones
 │   └── 02_modeling.ipynb              ← VIF + split + 3 modelos + comparación
 │
 ├── data/
-│   └── README.md                      ← explica de dónde sacar el CSV
+│   └── README.md                      ← explicar de dónde sacar el CSV - ¿Añadir o no?
 │
 ├── models/
-│   └── .gitkeep                       ← carpeta vacía rastreada por Git
+│   └── .gitkeep                       
 │
 └── reports/
     └── figures/                       ← gráficos exportados (heatmaps, etc.)
